@@ -4,7 +4,12 @@
  */
 package com.mycompany.unogame;
  
+import com.mycompany.unogame.Game.InvalidColorSubmissionException;
+import com.mycompany.unogame.Game.InvalidPlayerTurnException;
+import com.mycompany.unogame.Game.InvalidValueSubmissionException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 
 
@@ -18,11 +23,11 @@ public class PopUp extends javax.swing.JFrame {
     
     
     String cardImage = "";
-    Juego = juego;
+    Game game;
     ArrayList<UnoCard> playerHand;
     int choice;
     ArrayList<JButton> cardButtons;
-    GameStage gamestage;
+    GameStage gameStage;
     JButton topCardButton;
     UnoCard.Color declaredColor;
     
@@ -37,9 +42,17 @@ public class PopUp extends javax.swing.JFrame {
     
        
     
-    public PopUp(String cardName, Juego game, int index, ArrayList<JButton> cardButtons, GameStage gamestage, JButton topCardButton) {
+    public PopUp() {}
+
+    public PopUp(String cardName, Game game, int index, ArrayList<JButton> cardButtons, GameStage gameStage, JButton topCardButton) {
         initComponents();
-        
+        cardImage = cardName;
+        this.game = game;
+        playerHand = game.getPlayerHand(game.getCurrentPlayer());
+        choice = index;
+        this.cardButtons = cardButtons;
+        cardLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("rute" + cardImage + ".png")));
+        this.topCardButton = topCardButton;
     }
 
     /**
@@ -59,34 +72,44 @@ public class PopUp extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         useCardButton.setText("Usar carta");
+        useCardButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                useCardButtonActionPerformed(evt);
+            }
+        });
 
         cancelButton.setText("Cancelar");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(useCardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 65, 65)
+                .addComponent(useCardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64))
+                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(90, 90, 90)
+                .addGap(99, 99, 99)
                 .addComponent(cardLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(24, 24, 24)
                 .addComponent(cardLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(useCardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18))
+                    .addComponent(useCardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -102,6 +125,48 @@ public class PopUp extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void useCardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useCardButtonActionPerformed
+        // TODO add your handling code here:}
+        
+       System.out.println("putaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        
+        PickColorFrame pickColor = new PickColorFrame(this);
+        declaredColor = pickColor.choseColor(playerHand.get(choice));
+
+        if (declaredColor != null) {
+            try {
+                game.submitPlayerCard(game.getCurrentPlayer(), playerHand.get(choice), declaredColor);
+            } 
+            
+            catch (InvalidColorSubmissionException ex) {
+                Logger.getLogger(PopUp.class.getName()).log(Level.SEVERE,null, ex);
+            }
+            
+            catch (InvalidValueSubmissionException ex){
+                Logger.getLogger(PopUp.class.getName()).log(Level.SEVERE,null, ex);
+            }
+            
+            catch (InvalidPlayerTurnException ex){
+                Logger.getLogger(PopUp.class.getName()).log(Level.SEVERE,null, ex);
+            }
+            this.revalidate();
+            if(declaredColor != UnoCard.Color.Wild){
+                gameStage.setPidName(game.getCurrentPlayer());
+                gameStage.setButtonIcons();
+                topCardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("rute" + game.getTopCardImage())));
+                this.dispose();
+                
+            } 
+
+        }
+        
+    }//GEN-LAST:event_useCardButtonActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
 
     /**
      * @param args the command line arguments

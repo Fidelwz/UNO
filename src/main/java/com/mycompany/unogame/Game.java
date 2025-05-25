@@ -13,7 +13,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Juego {
+public class Game {
     private int currentPlayer;
     private String[] playerIds;
 
@@ -25,8 +25,10 @@ public class Juego {
     private UnoCard.Value validValue;
 
     boolean gameDirection;
+    
+    public Game(){}
 
-    public Juego(String[] pids) {
+    public Game(String[] pids) {
         deck = new UnoDeck();
         deck.shuffle();
         stockpile = new ArrayList<UnoCard>();
@@ -43,7 +45,7 @@ public class Juego {
         }
     }
 
-    public void start(Juego juego) {
+    public void start(Game juego) {
         UnoCard card = deck.drawCard();
         validColor = card.getColor();
         validValue = card.getValue();

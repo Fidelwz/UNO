@@ -20,7 +20,7 @@ public class GameStage extends JFrame {
     private AgregarJugadores aggJugadores = new AgregarJugadores();
     ArrayList<String> temp = new ArrayList<>();
     String[] pids;
-    Juego juego;
+    Game juego;
     ArrayList<JButton> cardButtons = new ArrayList<>();
     ArrayList<String> cardIds;
     //PopUp window;
@@ -33,11 +33,10 @@ public class GameStage extends JFrame {
     private JLabel pidNameLabel;
 
     public GameStage() {}
-
     public GameStage(ArrayList<String> playerIds) {
         this.temp = playerIds;
         this.pids = temp.toArray(new String[0]);
-        this.juego = new Juego(pids);
+        this.juego = new Game(pids);
         initComponents();
         populateArrayList();
         juego.start(juego);
@@ -119,7 +118,7 @@ public class GameStage extends JFrame {
         JOptionPane.showMessageDialog(null, message);
         try {
             juego.submitDraw(juego.getCurrentPlayer());
-        } catch (Juego.InvalidPlayerTurnException ex) {
+        } catch (Game.InvalidPlayerTurnException ex) {
             Logger.getLogger(GameStage.class.getName()).log(Level.SEVERE, null, ex);
         }
         setPidName(juego.getCurrentPlayer());

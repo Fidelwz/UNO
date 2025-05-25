@@ -8,13 +8,13 @@ package com.mycompany.unogame;
  *
  * @author mclovin
  */
-public class Main {
+public class Main { 
      public static void main(String[] args) {
         // Define los jugadores
         String[] jugadores = {"Jugador1", "Jugador2", "Jugador3", "Jugador4"};
 
         // Crea el juego con esos jugadores
-        Juego juego = new Juego(jugadores);
+        Game juego = new Game(jugadores);
 
         // Inicia el juego (elige carta válida inicial y aplica efectos si corresponde)
         juego.start(juego);
