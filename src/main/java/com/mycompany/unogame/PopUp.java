@@ -53,7 +53,7 @@ public class PopUp extends javax.swing.JFrame {
         choice = index;
         this.cardButtons = cardButtons;
         System.out.println(cardImage);
-        cardLabel.setIcon(new ImageIcon("C:\\Users\\carap\\Documents\\UNO\\imagenes\\Cartas\\"+cardImage+".png"));
+        cardLabel.setIcon(new ImageIcon("C:\\Users\\carap\\Documents\\UNO\\src\\main\\resources\\imagenes\\Cartas\\"+cardImage+".png"));
         this.topCardButton = topCardButton;
     }
 
@@ -155,7 +155,7 @@ public class PopUp extends javax.swing.JFrame {
             if(declaredColor != UnoCard.Color.Wild){
                 gameStage.setPidName(game.getCurrentPlayer());
                 gameStage.setButtonIcons();
-                topCardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("rute" + game.getTopCardImage())));
+                topCardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("C:\\Users\\carap\\Documents\\UNO\\src\\main\\resources\\imagenes\\Cartas\\" + game.getTopCardImage())));
                 this.dispose();
                 
             } 

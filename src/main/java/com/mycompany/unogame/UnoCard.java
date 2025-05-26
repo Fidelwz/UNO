@@ -51,6 +51,6 @@ public class UnoCard {
 
     @Override
     public String toString(){
-        return color + "__" + value;
+        return color + "_" + value;
     }
 }

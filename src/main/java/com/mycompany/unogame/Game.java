@@ -13,6 +13,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.swing.*;
+import java.awt.*;
+import java.util.*;
+
+
+
 public class Game {
     private int currentPlayer;
     private String[] playerIds;
@@ -24,66 +30,49 @@ public class Game {
     private UnoCard.Color validColor;
     private UnoCard.Value validValue;
 
-    boolean gameDirection;
-    
-    public Game(){}
+    private boolean gameDirection; // false = derecha, true = izquierda
+
+    public Game() {}
 
     public Game(String[] pids) {
         deck = new UnoDeck();
         deck.shuffle();
-        stockpile = new ArrayList<UnoCard>();
+        stockpile = new ArrayList<>();
 
         playerIds = pids;
         currentPlayer = 0;
         gameDirection = false;
 
-        playerHand = new ArrayList<ArrayList<UnoCard>>();
+        playerHand = new ArrayList<>();
 
         for (int i = 0; i < pids.length; i++) {
-            ArrayList<UnoCard> hand = new ArrayList<UnoCard>(Arrays.asList(deck.drawCard(7)));
+            ArrayList<UnoCard> hand = new ArrayList<>(Arrays.asList(deck.drawCard(7)));
             playerHand.add(hand);
         }
     }
 
     public void start(Game juego) {
-        UnoCard card = deck.drawCard();
+        UnoCard card;
+        do {
+            card = deck.drawCard();
+        } while (card.getValue() == UnoCard.Value.Wild ||
+                 card.getValue() == UnoCard.Value.Wild_Four ||
+                 card.getValue() == UnoCard.Value.DrawTwo);
+
         validColor = card.getColor();
         validValue = card.getValue();
-
-        if (card.getValue() == UnoCard.Value.Wild) {
-            start(juego);
-            return;
-        }
-
-        if (card.getValue() == UnoCard.Value.Wild_Four || card.getValue() == UnoCard.Value.DrawTwo) {
-            start(juego);
-            return;
-        }
+        stockpile.add(card);
 
         if (card.getValue() == UnoCard.Value.Skip) {
-            JLabel message = new JLabel(playerIds[currentPlayer] + " was skipped!");
-            message.setFont(new Font("Arial", Font.BOLD, 48));
-            JOptionPane.showMessageDialog(null, message);
-
-            if (gameDirection == false) {
-                currentPlayer = (currentPlayer + 1) % playerIds.length;
-            } else {
-                currentPlayer = (currentPlayer - 1) % playerIds.length;
-                if (currentPlayer == -1) {
-                    currentPlayer = playerIds.length - 1;
-                }
-            }
+            mostrarMensaje(playerIds[currentPlayer] + " fue saltado.");
+            avanzarJugador();
         }
 
         if (card.getValue() == UnoCard.Value.Reverse) {
-            JLabel message = new JLabel(playerIds[currentPlayer] + " The game direction changed!");
-            message.setFont(new Font("Arial", Font.BOLD, 48));
-            JOptionPane.showMessageDialog(null, message);
-            gameDirection ^= true;
+            mostrarMensaje("¡Se invirtió la dirección del juego!");
+            gameDirection = !gameDirection;
             currentPlayer = playerIds.length - 1;
         }
-
-        stockpile.add(card);
     }
 
     public UnoCard getTopCard() {
@@ -91,11 +80,11 @@ public class Game {
     }
 
     public ImageIcon getTopCardImage() {
-        return new ImageIcon(validColor + "-" + validValue + ".png");
+        return new ImageIcon(validColor + "_" + validValue + ".png");
     }
 
     public boolean isGameOver() {
-        for (String player : this.playerIds) {
+        for (String player : playerIds) {
             if (hasEmptyHand(player)) {
                 return true;
             }
@@ -104,15 +93,12 @@ public class Game {
     }
 
     public String getCurrentPlayer() {
-        return this.playerIds[this.currentPlayer];
+        return playerIds[currentPlayer];
     }
 
     public String getPreviousPlayer(int i) {
-        int index = this.currentPlayer - i;
-        if (index == -1) {
-            index = playerIds.length - 1;
-        }
-        return this.playerIds[index];
+        int index = Math.floorMod(currentPlayer - i, playerIds.length);
+        return playerIds[index];
     }
 
     public String[] getPlayers() {
@@ -129,8 +115,7 @@ public class Game {
     }
 
     public UnoCard getPlayerCard(String pid, int choice) {
-        ArrayList<UnoCard> hand = getPlayerHand(pid);
-        return hand.get(choice);
+        return getPlayerHand(pid).get(choice);
     }
 
     public boolean hasEmptyHand(String pid) {
@@ -138,12 +123,14 @@ public class Game {
     }
 
     public boolean validCardPlay(UnoCard card) {
-        return card.getColor() == validColor || card.getValue() == validValue || card.getColor() == UnoCard.Color.Wild;
+        return card.getColor() == validColor || 
+               card.getValue() == validValue || 
+               card.getColor() == UnoCard.Color.Wild;
     }
 
     public void checkPlayerTurn(String pid) throws InvalidPlayerTurnException {
-        if (!this.playerIds[this.currentPlayer].equals(pid)) {
-            throw new InvalidPlayerTurnException("It is not " + pid + "'s turn", pid);
+        if (!playerIds[currentPlayer].equals(pid)) {
+            throw new InvalidPlayerTurnException("No es el turno de " + pid, pid);
         }
     }
 
@@ -154,16 +141,9 @@ public class Game {
             deck.replaceDeckWith(stockpile);
             deck.shuffle();
         }
-        getPlayerHand(pid).add(deck.drawCard());
 
-        if (gameDirection == false) {
-            currentPlayer = (currentPlayer + 1) % playerIds.length;
-        } else {
-            currentPlayer = (currentPlayer - 1) % playerIds.length;
-            if (currentPlayer == -1) {
-                currentPlayer = playerIds.length - 1;
-            }
-        }
+        getPlayerHand(pid).add(deck.drawCard());
+        avanzarJugador();
     }
 
     public void setCardColor(UnoCard.Color color) {
@@ -182,80 +162,83 @@ public class Game {
                 validValue = card.getValue();
             } else {
                 if (card.getColor() != validColor) {
-                    JLabel message = new JLabel("Invalid player move - expected color " + validColor + " but got " + card.getColor());
-                    message.setFont(new Font("Arial", Font.BOLD, 48));
-                    JOptionPane.showMessageDialog(null, message);
-                    throw new InvalidColorSubmissionException("Invalid color", card.getColor(), validColor);
+                    mostrarMensaje("¡Jugada inválida! Se esperaba el color " + validColor + " pero se jugó " + card.getColor());
+                    throw new InvalidColorSubmissionException("Color inválido", card.getColor(), validColor);
                 } else if (card.getValue() != validValue) {
-                    JLabel message2 = new JLabel("Invalid player move - expected value " + validValue + " but got " + card.getValue());
-                    message2.setFont(new Font("Arial", Font.BOLD, 48));
-                    JOptionPane.showMessageDialog(null, message2);
-                    throw new InvalidValueSubmissionException("Invalid value", card.getValue(), validValue);
+                    mostrarMensaje("¡Jugada inválida! Se esperaba el valor " + validValue + " pero se jugó " + card.getValue());
+                    throw new InvalidValueSubmissionException("Valor inválido", card.getValue(), validValue);
                 }
             }
         }
 
         pHand.remove(card);
-        if (hasEmptyHand(this.playerIds[currentPlayer])) {
-            JLabel message3 = new JLabel(this.playerIds[currentPlayer] + " won the game!");
-            message3.setFont(new Font("Arial", Font.BOLD, 48));
-            JOptionPane.showMessageDialog(null, message3);
-            System.exit(0);
-        }
-
         validColor = card.getColor();
         validValue = card.getValue();
         stockpile.add(card);
 
-        // Handle special cards
+        if (hasEmptyHand(playerIds[currentPlayer])) {
+            mostrarMensaje(playerIds[currentPlayer] + " ganó la partida 🎉");
+            System.exit(0);
+        }
+
+        // Efectos de cartas especiales
         if (card.getColor() == UnoCard.Color.Wild) {
             validColor = declaredColor;
         }
 
         if (card.getValue() == UnoCard.Value.DrawTwo) {
-            String nextPlayer = playerIds[(currentPlayer + (gameDirection ? -1 : 1)) % playerIds.length];
+            String nextPlayer = getNextPlayerId();
             getPlayerHand(nextPlayer).add(deck.drawCard());
             getPlayerHand(nextPlayer).add(deck.drawCard());
-            JLabel message = new JLabel(nextPlayer + " draws 2 cards!");
-            message.setFont(new Font("Arial", Font.BOLD, 24));
-            JOptionPane.showMessageDialog(null, message);
+            mostrarMensaje(nextPlayer + " roba 2 cartas.");
         }
 
         if (card.getValue() == UnoCard.Value.Wild_Four) {
-            String nextPlayer = playerIds[(currentPlayer + (gameDirection ? -1 : 1)) % playerIds.length];
-            getPlayerHand(nextPlayer).add(deck.drawCard());
-            getPlayerHand(nextPlayer).add(deck.drawCard());
-            getPlayerHand(nextPlayer).add(deck.drawCard());
-            getPlayerHand(nextPlayer).add(deck.drawCard());
-            JLabel message = new JLabel(nextPlayer + " draws 4 cards!");
-            message.setFont(new Font("Arial", Font.BOLD, 24));
-            JOptionPane.showMessageDialog(null, message);
+            String nextPlayer = getNextPlayerId();
+            for (int i = 0; i < 4; i++) {
+                getPlayerHand(nextPlayer).add(deck.drawCard());
+            }
+            mostrarMensaje(nextPlayer + " roba 4 cartas.");
         }
 
         if (card.getValue() == UnoCard.Value.Skip) {
-            JLabel message = new JLabel(playerIds[currentPlayer] + " was skipped!");
-            message.setFont(new Font("Arial", Font.BOLD, 48));
-            JOptionPane.showMessageDialog(null, message);
+            mostrarMensaje(getNextPlayerId() + " fue saltado.");
+            avanzarJugador(); // se avanza doble después
         }
 
         if (card.getValue() == UnoCard.Value.Reverse) {
-            JLabel message = new JLabel("Game direction reversed!");
-            message.setFont(new Font("Arial", Font.BOLD, 48));
-            JOptionPane.showMessageDialog(null, message);
             gameDirection = !gameDirection;
+            mostrarMensaje("¡Se invirtió la dirección del juego!");
         }
 
-        // Move to next player
-        if (gameDirection == false) {
+        avanzarJugador();
+    }
+
+    private void avanzarJugador() {
+        if (!gameDirection) {
             currentPlayer = (currentPlayer + 1) % playerIds.length;
         } else {
-            currentPlayer = (currentPlayer - 1) % playerIds.length;
-            if (currentPlayer == -1) {
-                currentPlayer = playerIds.length - 1;
-            }
+            currentPlayer = Math.floorMod(currentPlayer - 1, playerIds.length);
         }
     }
 
+    private String getNextPlayerId() {
+        int index;
+        if (!gameDirection) {
+            index = (currentPlayer + 1) % playerIds.length;
+        } else {
+            index = Math.floorMod(currentPlayer - 1, playerIds.length);
+        }
+        return playerIds[index];
+    }
+
+    private void mostrarMensaje(String mensaje) {
+        JLabel label = new JLabel(mensaje);
+        label.setFont(new Font("Arial", Font.BOLD, 24));
+        JOptionPane.showMessageDialog(null, label);
+    }
+
+    // Clases de excepciones personalizadas
     class InvalidPlayerTurnException extends Exception {
         String playerId;
 
@@ -291,3 +274,4 @@ public class Game {
         }
     }
 }
+
