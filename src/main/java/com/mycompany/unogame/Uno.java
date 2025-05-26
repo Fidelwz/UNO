@@ -118,7 +118,7 @@ public class Uno extends JFrame {
     public static void main(String[] args) {
         Uno menu = new Uno();
         //Imagen
-        ImageIcon originalIcon = new ImageIcon("C:/Users/Admin/Desktop/M/UNOMain/Imagenes/UNO.jpeg");
+        ImageIcon originalIcon = new ImageIcon("file:/home/mclovin/NetBeansProjects/UnoGame/imagenes/Cartas/Blue_One.png");
         Image scaledImage = originalIcon.getImage().getScaledInstance(270, 170, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
         menu.setImageIcon(scaledIcon);

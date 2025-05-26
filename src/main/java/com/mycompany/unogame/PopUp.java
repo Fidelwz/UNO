@@ -51,7 +51,7 @@ public class PopUp extends javax.swing.JFrame {
         playerHand = game.getPlayerHand(game.getCurrentPlayer());
         choice = index;
         this.cardButtons = cardButtons;
-        cardLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("rute" + cardImage + ".png")));
+        cardLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("file:/home/mclovin/NetBeansProjects/UnoGame/imagenes/Cartas/" + cardImage + ".png")));
         this.topCardButton = topCardButton;
     }
 
@@ -129,7 +129,6 @@ public class PopUp extends javax.swing.JFrame {
     private void useCardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useCardButtonActionPerformed
         // TODO add your handling code here:}
         
-       System.out.println("putaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         
         PickColorFrame pickColor = new PickColorFrame(this);
         declaredColor = pickColor.choseColor(playerHand.get(choice));
