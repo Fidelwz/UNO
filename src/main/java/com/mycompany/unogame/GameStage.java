@@ -46,7 +46,7 @@ public class GameStage extends javax.swing.JFrame {
         populateArrayList();
         game.start(game);
         setPidName();
-        topCardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("file:/home/mclovin/NetBeansProjects/UnoGame/imagenes/Cartas/" + game.getTopCardImage())));
+        topCardButton.setIcon(new ImageIcon("C:\\Users\\carap\\Documents\\UNO\\imagenes\\Cartas\\" + game.getTopCardImage()));
         setButtonIcons();
         
          
@@ -59,7 +59,8 @@ public class GameStage extends javax.swing.JFrame {
         cardIds = new ArrayList<>(Arrays.asList(cardNames));
         
         for(int i = 0; i < cardIds.size(); i++){        
-     cardButtons.get(i).setIcon(new ImageIcon("file:/home/mclovin/NetBeansProjects/UnoGame/imagenes/Cartas/" + cardIds.get(i) + ".png"));
+                cardButtons.get(i).setIcon(new ImageIcon("C:\\Users\\carap\\Documents\\UNO\\imagenes\\Cartas\\"+cardIds.get(i)+".png"));
+                System.out.println(cardIds.get(i));
         }
         
         for(int i = cardIds.size(); i < cardButtons.size(); i++){
@@ -116,7 +117,6 @@ public class GameStage extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1280, 720));
 
-        jButton1.setText("JButton1");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -199,10 +199,6 @@ public class GameStage extends javax.swing.JFrame {
                 jButton12ActionPerformed(evt);
             }
         });
-
-        topCardButton.setText("JButton1");
-
-        downCard.setText("JButton1");
 
         drawCardButton.setText("Elegir carta");
         drawCardButton.addActionListener(new java.awt.event.ActionListener() {

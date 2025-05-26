@@ -31,7 +31,7 @@ public class AgregarJugadores extends JFrame {
         private JButton listoBtn; // Botón declarado como atributo
 
         public PanelConBordeYFondo() {
-            imagen = new ImageIcon("file:/home/mclovin/NetBeansProjects/UnoGame/imagenes/Cartas/Wild_Wild_Four.png").getImage();
+            imagen = new ImageIcon("C:\\Users\\carap\\Documents\\UNO\\src\\main\\java\\com\\mycompany\\unogame\\imagenes\\UNO.jpeg").getImage();
             setLayout(null);
 
             TituloConContorno titulo = new TituloConContorno();

@@ -128,9 +128,6 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JButton" name="jButton1">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="JButton1"/>
-          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
           </Events>
@@ -226,14 +223,8 @@
         <Component class="javax.swing.JLabel" name="pidNameLabel">
         </Component>
         <Component class="javax.swing.JButton" name="topCardButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="JButton1"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="downCard">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="JButton1"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="drawCardButton">
           <Properties>

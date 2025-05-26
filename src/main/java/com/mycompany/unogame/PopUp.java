@@ -10,6 +10,7 @@ import com.mycompany.unogame.Game.InvalidValueSubmissionException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 
@@ -51,7 +52,8 @@ public class PopUp extends javax.swing.JFrame {
         playerHand = game.getPlayerHand(game.getCurrentPlayer());
         choice = index;
         this.cardButtons = cardButtons;
-        cardLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("file:/home/mclovin/NetBeansProjects/UnoGame/imagenes/Cartas/" + cardImage + ".png")));
+        System.out.println(cardImage);
+        cardLabel.setIcon(new ImageIcon("C:\\Users\\carap\\Documents\\UNO\\imagenes\\Cartas\\"+cardImage+".png"));
         this.topCardButton = topCardButton;
     }
 
