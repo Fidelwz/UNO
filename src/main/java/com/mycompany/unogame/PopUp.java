@@ -7,6 +7,7 @@ package com.mycompany.unogame;
 import com.mycompany.unogame.Game.InvalidColorSubmissionException;
 import com.mycompany.unogame.Game.InvalidPlayerTurnException;
 import com.mycompany.unogame.Game.InvalidValueSubmissionException;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,17 +46,19 @@ public class PopUp extends javax.swing.JFrame {
     
     public PopUp() {}
 
-    public PopUp(String cardName, Game game, int index, ArrayList<JButton> cardButtons, GameStage gameStage, JButton topCardButton) {
-        initComponents();
-        cardImage = cardName;
-        this.game = game;
-        playerHand = game.getPlayerHand(game.getCurrentPlayer());
-        choice = index;
-        this.cardButtons = cardButtons;
-        System.out.println(cardImage);
-        cardLabel.setIcon(new ImageIcon("C:\\Users\\carap\\Documents\\UNO\\src\\main\\resources\\imagenes\\Cartas\\"+cardImage+".png"));
-        this.topCardButton = topCardButton;
-    }
+   public PopUp(String cardName, Game game, int index, ArrayList<JButton> cardButtons, GameStage gameStage, JButton topCardButton) {
+    initComponents();
+    this.cardImage = cardName;
+    this.game = game;
+    this.choice = index;
+    this.cardButtons = cardButtons;
+    this.playerHand = game.getPlayerHand(game.getCurrentPlayer());
+    this.gameStage = gameStage; // ← ASEGURATE DE TENER ESTA LÍNEA
+    this.topCardButton = topCardButton;
+
+    ImageIcon icon = new ImageIcon("src/main/resources/imagenes/Cartas/" + cardImage + ".png");
+    cardLabel.setIcon(icon);
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -131,36 +134,35 @@ public class PopUp extends javax.swing.JFrame {
     private void useCardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useCardButtonActionPerformed
         // TODO add your handling code here:}
         
-        
-        PickColorFrame pickColor = new PickColorFrame(this);
-        declaredColor = pickColor.choseColor(playerHand.get(choice));
+         UnoCard card = playerHand.get(choice);
 
-        if (declaredColor != null) {
-            try {
-                game.submitPlayerCard(game.getCurrentPlayer(), playerHand.get(choice), declaredColor);
-            } 
-            
-            catch (InvalidColorSubmissionException ex) {
-                Logger.getLogger(PopUp.class.getName()).log(Level.SEVERE,null, ex);
-            }
-            
-            catch (InvalidValueSubmissionException ex){
-                Logger.getLogger(PopUp.class.getName()).log(Level.SEVERE,null, ex);
-            }
-            
-            catch (InvalidPlayerTurnException ex){
-                Logger.getLogger(PopUp.class.getName()).log(Level.SEVERE,null, ex);
-            }
-            this.revalidate();
-            if(declaredColor != UnoCard.Color.Wild){
-                gameStage.setPidName(game.getCurrentPlayer());
-                gameStage.setButtonIcons();
-                topCardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("C:\\Users\\carap\\Documents\\UNO\\src\\main\\resources\\imagenes\\Cartas\\" + game.getTopCardImage())));
-                this.dispose();
-                
-            } 
+    // Si es comodín, elegir color
+    if (card.getColor() == UnoCard.Color.Wild) {
+        PickColorFrame colorPicker = new PickColorFrame(this);
+        declaredColor = colorPicker.choseColor(card);
+    } else {
+        declaredColor = card.getColor();
+    }
 
+    if (declaredColor != null) {
+        try {
+            game.submitPlayerCard(game.getCurrentPlayer(), card, declaredColor);
+        } catch (InvalidColorSubmissionException | InvalidValueSubmissionException | InvalidPlayerTurnException ex) {
+            Logger.getLogger(PopUp.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        // Actualizar interfaz SIEMPRE
+        gameStage.setPidName(game.getCurrentPlayer());
+        gameStage.setButtonIcons();
+        
+        String path = "src/main/resources/imagenes/Cartas/" + game.getTopCard().toString() + ".png";
+        ImageIcon icon = new ImageIcon(path);
+        Image scaled = icon.getImage().getScaledInstance(topCardButton.getWidth(), topCardButton.getHeight(), Image.SCALE_SMOOTH);
+        topCardButton.setIcon(new ImageIcon(scaled));
+
+        dispose();
+    }
+        
         
     }//GEN-LAST:event_useCardButtonActionPerformed
 

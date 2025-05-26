@@ -1,4 +1,3 @@
-com\mycompany\unogame\Uno$2.class
 com\mycompany\unogame\Game$InvalidPlayerTurnException.class
 com\mycompany\unogame\GameStage$6.class
 com\mycompany\unogame\GameStage.class
@@ -6,7 +5,6 @@ com\mycompany\unogame\UnoDeck.class
 com\mycompany\unogame\GameStage$9.class
 com\mycompany\unogame\GameStage$3.class
 com\mycompany\unogame\UnoCard$Color.class
-com\mycompany\unogame\Main.class
 com\mycompany\unogame\PopUp$2.class
 com\mycompany\unogame\Menu$2.class
 com\mycompany\unogame\PickColorFrame$2.class
@@ -19,21 +17,16 @@ com\mycompany\unogame\PickColorFrame$1.class
 com\mycompany\unogame\AddPlayerNames$1.class
 com\mycompany\unogame\GameStage$12.class
 com\mycompany\unogame\GameStage$8.class
-com\mycompany\unogame\Uno$1.class
-com\mycompany\unogame\Uno.class
 com\mycompany\unogame\AddPlayerNames$2.class
 com\mycompany\unogame\GameStage$2.class
 com\mycompany\unogame\UnoCard.class
-com\mycompany\unogame\Uno$3.class
 com\mycompany\unogame\Game$InvalidValueSubmissionException.class
 com\mycompany\unogame\GameStage$10.class
-com\mycompany\unogame\RoundedPanel.class
 com\mycompany\unogame\Menu.class
 com\mycompany\unogame\AddPlayerNames.class
 com\mycompany\unogame\GameStage$13.class
 com\mycompany\unogame\PickColorFrame.class
 com\mycompany\unogame\Game$InvalidColorSubmissionException.class
-com\mycompany\unogame\Uno$4.class
 com\mycompany\unogame\GameStage$15.class
 com\mycompany\unogame\GameStage$14.class
 com\mycompany\unogame\PickColorFrame$3.class
