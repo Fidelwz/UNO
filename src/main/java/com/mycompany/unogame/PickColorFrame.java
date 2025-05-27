@@ -36,7 +36,6 @@ public class PickColorFrame extends javax.swing.JFrame {
     }
     
     public UnoCard.Color choseColor(UnoCard card) {
-
         if (card.getColor() == UnoCard.Color.Wild) {
             this.setVisible(true);
             this.setResizable(false);
@@ -44,6 +43,7 @@ public class PickColorFrame extends javax.swing.JFrame {
         }
         return card.getColor();
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -136,46 +136,68 @@ public class PickColorFrame extends javax.swing.JFrame {
 
     private void redButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redButtonActionPerformed
         
-        wildColor = UnoCard.Color.Red;
+       wildColor = UnoCard.Color.Red;
         JLabel message = new JLabel("El color seleccionado es Rojo!");
         message.setFont(new Font("Arial", Font.BOLD, 48));
         JOptionPane.showMessageDialog(null, message);
         allow = true;
         this.dispose();
+
         popUp.declaredColor = UnoCard.Color.Red;
+        popUp.game.setCardColor(UnoCard.Color.Red);
         popUp.gameStage.setPidName(popUp.game.getCurrentPlayer());
         popUp.gameStage.setButtonIcons();
-        popUp.topCardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("resouce"+ popUp.game.getTopCardImage())));
+        popUp.topCardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("src/main/resources/imagenes/Cartas/" + popUp.game.getTopCardImage())));
         popUp.game.setCardColor(UnoCard.Color.Red);
         popUp.dispose();
     }//GEN-LAST:event_redButtonActionPerformed
 
     private void blueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blueButtonActionPerformed
-        wildColor = UnoCard.Color.Blue;
-        JLabel message = new JLabel("El color seleccionado es Azul!");
+         wildColor = UnoCard.Color.Blue;
+
+        // Ejemplo: Agregar registro en consola
+        System.out.println("Jugador eligió el color Azul");
+
+        // Mostrar mensaje y actualizar estado
+        JLabel message = new JLabel("El color seleccionado es Rojo!");
         message.setFont(new Font("Arial", Font.BOLD, 48));
         JOptionPane.showMessageDialog(null, message);
+
+        // Aquí puedes modificar la lógica antes de cerrar las ventanas
         allow = true;
         this.dispose();
+
+        // Notificar al juego del color seleccionado
         popUp.declaredColor = UnoCard.Color.Blue;
+        popUp.game.setCardColor(UnoCard.Color.Blue);
         popUp.gameStage.setPidName(popUp.game.getCurrentPlayer());
         popUp.gameStage.setButtonIcons();
-        popUp.topCardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("resouce" + popUp.game.getTopCardImage())));
+        popUp.topCardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("src/main/resources/imagenes/Cartas/" + popUp.game.getTopCardImage())));
         popUp.game.setCardColor(UnoCard.Color.Blue);
         popUp.dispose();
     }//GEN-LAST:event_blueButtonActionPerformed
 
     private void greenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_greenButtonActionPerformed
-        wildColor = UnoCard.Color.Green;
-        JLabel message = new JLabel("El color seleccionado es Verde!");
+         wildColor = UnoCard.Color.Green;
+
+        // Ejemplo: Agregar registro en consola
+        System.out.println("Jugador eligió el color Verde");
+
+        // Mostrar mensaje y actualizar estado
+        JLabel message = new JLabel("El color seleccionado es Rojo!");
         message.setFont(new Font("Arial", Font.BOLD, 48));
         JOptionPane.showMessageDialog(null, message);
+
+        // Aquí puedes modificar la lógica antes de cerrar las ventanas
         allow = true;
         this.dispose();
+
+        // Notificar al juego del color seleccionado
         popUp.declaredColor = UnoCard.Color.Green;
+        popUp.game.setCardColor(UnoCard.Color.Green);
         popUp.gameStage.setPidName(popUp.game.getCurrentPlayer());
         popUp.gameStage.setButtonIcons();
-        popUp.topCardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("resouce" + popUp.game.getTopCardImage())));
+        popUp.topCardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("src/main/resources/imagenes/Cartas/" + popUp.game.getTopCardImage())));
         popUp.game.setCardColor(UnoCard.Color.Green);
         popUp.dispose();
 
@@ -183,15 +205,25 @@ public class PickColorFrame extends javax.swing.JFrame {
 
     private void yellowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yellowButtonActionPerformed
         wildColor = UnoCard.Color.Yellow;
-        JLabel message = new JLabel("El color seleccionado es Amarillo!");
+
+        // Ejemplo: Agregar registro en consola
+        System.out.println("Jugador eligió el color Amarillo");
+
+        // Mostrar mensaje y actualizar estado
+        JLabel message = new JLabel("El color seleccionado es Rojo!");
         message.setFont(new Font("Arial", Font.BOLD, 48));
         JOptionPane.showMessageDialog(null, message);
+
+        // Aquí puedes modificar la lógica antes de cerrar las ventanas
         allow = true;
         this.dispose();
+
+        // Notificar al juego del color seleccionado
         popUp.declaredColor = UnoCard.Color.Yellow;
+        popUp.game.setCardColor(UnoCard.Color.Yellow);
         popUp.gameStage.setPidName(popUp.game.getCurrentPlayer());
         popUp.gameStage.setButtonIcons();
-        popUp.topCardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("resouce" + popUp.game.getTopCardImage())));
+        popUp.topCardButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("src/main/resources/imagenes/Cartas/" + popUp.game.getTopCardImage())));
         popUp.game.setCardColor(UnoCard.Color.Yellow);
         popUp.dispose();
     }//GEN-LAST:event_yellowButtonActionPerformed

@@ -49,7 +49,7 @@ public class GameStage extends javax.swing.JFrame {
     setPidName();
 
     // Aquí usas el código corregido:
-    String topCardPath = "C:\\Users\\carap\\Documents\\UNO\\src\\main\\resources\\imagenes\\Cartas\\" + game.getTopCardImage();
+    String topCardPath = "src/main/resources/imagenes/Cartas/" + game.getTopCardImage();
     ImageIcon originalIcon = new ImageIcon(topCardPath);
 
     int width = topCardButton.getWidth();
@@ -79,7 +79,7 @@ public class GameStage extends javax.swing.JFrame {
     cardIds = new ArrayList<>(Arrays.asList(cardNames));
 
     for (int i = 0; i < cardIds.size(); i++) {
-        String imagePath = "C:\\Users\\carap\\Documents\\UNO\\src\\main\\resources\\imagenes\\Cartas\\" + cardIds.get(i) + ".png";
+        String imagePath = "src/main/resources/imagenes/Cartas/" + cardIds.get(i) + ".png";
         
         // Cargamos la imagen original
         ImageIcon originalIcon = new ImageIcon(imagePath);

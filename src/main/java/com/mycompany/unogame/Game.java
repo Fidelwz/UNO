@@ -1,23 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.unogame;
 
-/**
- *
- * @author mclovin
- */
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.*;
-
-
 
 public class Game {
     private int currentPlayer;
@@ -44,8 +30,7 @@ public class Game {
         gameDirection = false;
 
         playerHand = new ArrayList<>();
-
-        for (int i = 0; i < pids.length; i++) {
+        for (String pid : pids) {
             ArrayList<UnoCard> hand = new ArrayList<>(Arrays.asList(deck.drawCard(7)));
             playerHand.add(hand);
         }
@@ -96,11 +81,6 @@ public class Game {
         return playerIds[currentPlayer];
     }
 
-    public String getPreviousPlayer(int i) {
-        int index = Math.floorMod(currentPlayer - i, playerIds.length);
-        return playerIds[index];
-    }
-
     public String[] getPlayers() {
         return playerIds;
     }
@@ -123,8 +103,8 @@ public class Game {
     }
 
     public boolean validCardPlay(UnoCard card) {
-        return card.getColor() == validColor || 
-               card.getValue() == validValue || 
+        return card.getColor() == validColor ||
+               card.getValue() == validValue ||
                card.getColor() == UnoCard.Color.Wild;
     }
 
@@ -150,69 +130,73 @@ public class Game {
         validColor = color;
     }
 
-    public void submitPlayerCard(String pid, UnoCard card, UnoCard.Color declaredColor)
-            throws InvalidColorSubmissionException, InvalidValueSubmissionException, InvalidPlayerTurnException {
+   public void submitPlayerCard(String pid, UnoCard card, UnoCard.Color declaredColor)
+        throws InvalidColorSubmissionException, InvalidValueSubmissionException, InvalidPlayerTurnException {
 
-        checkPlayerTurn(pid);
-        ArrayList<UnoCard> pHand = getPlayerHand(pid);
+    checkPlayerTurn(pid);
+    ArrayList<UnoCard> pHand = getPlayerHand(pid);
 
-        if (!validCardPlay(card)) {
-            if (card.getColor() == UnoCard.Color.Wild) {
-                validColor = declaredColor;
-                validValue = card.getValue();
-            } else {
-                if (card.getColor() != validColor) {
-                    mostrarMensaje("¡Jugada inválida! Se esperaba el color " + validColor + " pero se jugó " + card.getColor());
-                    throw new InvalidColorSubmissionException("Color inválido", card.getColor(), validColor);
-                } else if (card.getValue() != validValue) {
-                    mostrarMensaje("¡Jugada inválida! Se esperaba el valor " + validValue + " pero se jugó " + card.getValue());
-                    throw new InvalidValueSubmissionException("Valor inválido", card.getValue(), validValue);
-                }
-            }
-        }
-
-        pHand.remove(card);
-        validColor = card.getColor();
+    // 👉 SI LA CARTA ES UN COMODÍN, ACTUALIZAMOS EL COLOR PRIMERO
+    if (card.getColor() == UnoCard.Color.Wild) {
+        validColor = declaredColor;
         validValue = card.getValue();
-        stockpile.add(card);
+    }
 
-        if (hasEmptyHand(playerIds[currentPlayer])) {
-            mostrarMensaje(playerIds[currentPlayer] + " ganó la partida 🎉");
-            System.exit(0);
-        }
+    // ✅ VALIDACIÓN GENERAL
+    if (!(card.getColor() == validColor ||
+          card.getValue() == validValue ||
+          card.getColor() == UnoCard.Color.Wild)) {
 
-        // Efectos de cartas especiales
-        if (card.getColor() == UnoCard.Color.Wild) {
-            validColor = declaredColor;
-        }
+        mostrarMensaje("¡Jugada inválida! Se esperaba " + validColor + " o " + validValue + ", pero se jugó " + card.getColor() + " " + card.getValue());
+        throw new InvalidColorSubmissionException("Carta inválida", card.getColor(), validColor);
+    }
 
-        if (card.getValue() == UnoCard.Value.DrawTwo) {
-            String nextPlayer = getNextPlayerId();
+    // 👉 Remover carta jugada
+    pHand.remove(card);
+
+    // ✅ Actualizar color y valor jugado
+    if (card.getColor() == UnoCard.Color.Wild) {
+        validColor = declaredColor;
+    } else {
+        validColor = card.getColor();
+    }
+    validValue = card.getValue();
+    stockpile.add(card);
+
+    // ✅ Verificar victoria
+    if (hasEmptyHand(playerIds[currentPlayer])) {
+        mostrarMensaje(playerIds[currentPlayer] + " ganó la partida 🎉");
+        System.exit(0);
+    }
+
+    // 💥 Efectos especiales
+    if (card.getValue() == UnoCard.Value.DrawTwo) {
+        String nextPlayer = getNextPlayerId();
+        getPlayerHand(nextPlayer).add(deck.drawCard());
+        getPlayerHand(nextPlayer).add(deck.drawCard());
+        mostrarMensaje(nextPlayer + " roba 2 cartas.");
+    }
+
+    if (card.getValue() == UnoCard.Value.Wild_Four) {
+        String nextPlayer = getNextPlayerId();
+        for (int i = 0; i < 4; i++) {
             getPlayerHand(nextPlayer).add(deck.drawCard());
-            getPlayerHand(nextPlayer).add(deck.drawCard());
-            mostrarMensaje(nextPlayer + " roba 2 cartas.");
         }
+        mostrarMensaje(nextPlayer + " roba 4 cartas.");
+    }
 
-        if (card.getValue() == UnoCard.Value.Wild_Four) {
-            String nextPlayer = getNextPlayerId();
-            for (int i = 0; i < 4; i++) {
-                getPlayerHand(nextPlayer).add(deck.drawCard());
-            }
-            mostrarMensaje(nextPlayer + " roba 4 cartas.");
-        }
-
-        if (card.getValue() == UnoCard.Value.Skip) {
-            mostrarMensaje(getNextPlayerId() + " fue saltado.");
-            avanzarJugador(); // se avanza doble después
-        }
-
-        if (card.getValue() == UnoCard.Value.Reverse) {
-            gameDirection = !gameDirection;
-            mostrarMensaje("¡Se invirtió la dirección del juego!");
-        }
-
+    if (card.getValue() == UnoCard.Value.Skip) {
+        mostrarMensaje(getNextPlayerId() + " fue saltado.");
         avanzarJugador();
     }
+
+    if (card.getValue() == UnoCard.Value.Reverse) {
+        gameDirection = !gameDirection;
+        mostrarMensaje("¡Se invirtió la dirección del juego!");
+    }
+
+    avanzarJugador();
+}
 
     private void avanzarJugador() {
         if (!gameDirection) {
@@ -238,7 +222,7 @@ public class Game {
         JOptionPane.showMessageDialog(null, label);
     }
 
-    // Clases de excepciones personalizadas
+    // Excepciones personalizadas
     class InvalidPlayerTurnException extends Exception {
         String playerId;
 
@@ -274,4 +258,3 @@ public class Game {
         }
     }
 }
-
