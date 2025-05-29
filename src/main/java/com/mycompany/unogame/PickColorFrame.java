@@ -17,7 +17,6 @@ public class PickColorFrame extends javax.swing.JFrame {
     private UnoCard.Color wildColor = null;
     Boolean allow = false;
     PopUp popUp;
-    
    
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PickColorFrame.class.getName());
