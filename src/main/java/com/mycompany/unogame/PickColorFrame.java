@@ -101,25 +101,24 @@ public class PickColorFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(172, 172, 172)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(198, 198, 198)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(blueButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(redButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(greenButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(yellowButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(176, Short.MAX_VALUE))
+                .addContainerGap(109, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(105, 105, 105))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(133, 133, 133)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(blueButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(redButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(greenButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(yellowButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(57, 57, 57)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(40, 40, 40)
                 .addComponent(jLabel1)
-                .addGap(38, 38, 38)
+                .addGap(39, 39, 39)
                 .addComponent(redButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(blueButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -127,7 +126,7 @@ public class PickColorFrame extends javax.swing.JFrame {
                 .addComponent(greenButton, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(yellowButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(98, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         pack();
@@ -154,11 +153,10 @@ public class PickColorFrame extends javax.swing.JFrame {
     private void blueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blueButtonActionPerformed
          wildColor = UnoCard.Color.Blue;
 
-        // Ejemplo: Agregar registro en consola
-        System.out.println("Jugador eligió el color Azul");
+        
 
         // Mostrar mensaje y actualizar estado
-        JLabel message = new JLabel("El color seleccionado es Rojo!");
+        JLabel message = new JLabel("El color seleccionado es Azul!");
         message.setFont(new Font("Arial", Font.BOLD, 48));
         JOptionPane.showMessageDialog(null, message);
 
@@ -179,11 +177,10 @@ public class PickColorFrame extends javax.swing.JFrame {
     private void greenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_greenButtonActionPerformed
          wildColor = UnoCard.Color.Green;
 
-        // Ejemplo: Agregar registro en consola
-        System.out.println("Jugador eligió el color Verde");
+      
 
         // Mostrar mensaje y actualizar estado
-        JLabel message = new JLabel("El color seleccionado es Rojo!");
+        JLabel message = new JLabel("El color seleccionado es Verde!");
         message.setFont(new Font("Arial", Font.BOLD, 48));
         JOptionPane.showMessageDialog(null, message);
 
@@ -205,11 +202,10 @@ public class PickColorFrame extends javax.swing.JFrame {
     private void yellowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yellowButtonActionPerformed
         wildColor = UnoCard.Color.Yellow;
 
-        // Ejemplo: Agregar registro en consola
-        System.out.println("Jugador eligió el color Amarillo");
+       
 
         // Mostrar mensaje y actualizar estado
-        JLabel message = new JLabel("El color seleccionado es Rojo!");
+        JLabel message = new JLabel("El color seleccionado es Amarillo!");
         message.setFont(new Font("Arial", Font.BOLD, 48));
         JOptionPane.showMessageDialog(null, message);
 
