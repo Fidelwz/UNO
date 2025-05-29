@@ -147,7 +147,8 @@ public class Game {
           card.getValue() == validValue ||
           card.getColor() == UnoCard.Color.Wild)) {
 
-        mostrarMensaje("¡Jugada inválida! Se esperaba " + validColor + " o " + validValue + ", pero se jugó " + card.getColor() + " " + card.getValue());
+       mostrarMensaje("¡Jugada inválida! Se esperaba " + traducirColor(validColor) + " o " + traducirValor(validValue) +
+                ", pero se jugó " + "'"+ traducirColor(card.getColor()) + " " + traducirValor(card.getValue())+ "'");
         throw new InvalidColorSubmissionException("Carta inválida", card.getColor(), validColor);
     }
 
@@ -257,4 +258,34 @@ public class Game {
             this.expected = expected;
         }
     }
+    
+    private String traducirColor(UnoCard.Color color) {
+    return switch (color) {
+        case Red -> "Rojo";
+        case Green -> "Verde";
+        case Blue -> "Azul";
+        case Yellow -> "Amarillo";
+        case Wild -> "Comodín";
+    };
+}
+
+private String traducirValor(UnoCard.Value value) {
+    return switch (value) {
+        case Zero -> "Cero";
+        case One -> "Uno";
+        case Two -> "Dos";
+        case Three -> "Tres";
+        case Four -> "Cuatro";
+        case Five -> "Cinco";
+        case Six -> "Seis";
+        case Seven -> "Siete";
+        case Eight -> "Ocho";
+        case Nine -> "Nueve";
+        case Skip -> "Bloqueo";
+        case Reverse -> "Reversa";
+        case DrawTwo -> "Roba Dos";
+        case Wild -> "Comodín";
+        case Wild_Four -> "Comodín +4";
+    };
+}
 }
