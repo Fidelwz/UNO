@@ -73,6 +73,32 @@ public class GameStage extends javax.swing.JFrame {
 
         setButtonIcons();
 
+
+// Mostrar imagen de la carta para robar (deckCard)
+String deckCardPath = "src/main/resources/imagenes/UnoBack.png";
+ImageIcon deckIcon = new ImageIcon(deckCardPath);
+
+// Dimensiones fijas deseadas
+int deckWidth = 185;
+int deckHeight = 268;
+
+// Escalar imagen
+Image scaledDeckImage = deckIcon.getImage().getScaledInstance(deckWidth, deckHeight, Image.SCALE_SMOOTH);
+ImageIcon scaledDeckIcon = new ImageIcon(scaledDeckImage);
+
+// Asignar imagen al botón deckCard
+deckCard.setIcon(scaledDeckIcon);
+
+// Ajustar botón visualmente
+deckCard.setPreferredSize(new java.awt.Dimension(deckWidth, deckHeight));
+deckCard.setMinimumSize(new java.awt.Dimension(deckWidth, deckHeight));
+deckCard.setMaximumSize(new java.awt.Dimension(deckWidth, deckHeight));
+deckCard.setBorderPainted(false);
+deckCard.setContentAreaFilled(false);
+deckCard.setFocusPainted(false);
+deckCard.setOpaque(false);
+        
+
     }
 
     public void setButtonIcons() {
@@ -167,6 +193,7 @@ public class GameStage extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1920, 1080));
 
+        jPanel1.setBackground(new java.awt.Color(153, 0, 0));
         jPanel1.setForeground(new java.awt.Color(0, 0, 0));
         jPanel1.setPreferredSize(new java.awt.Dimension(1920, 1080));
 
@@ -244,7 +271,8 @@ public class GameStage extends javax.swing.JFrame {
             }
         });
 
-        pidNameLabel.setFont(new java.awt.Font("Cantarell", 0, 24)); // NOI18N
+        pidNameLabel.setFont(new java.awt.Font("Cantarell", 0, 48)); // NOI18N
+        pidNameLabel.setForeground(new java.awt.Color(255, 255, 255));
 
         topCardButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -258,7 +286,9 @@ public class GameStage extends javax.swing.JFrame {
             }
         });
 
+        drawCardButton.setBackground(new java.awt.Color(0, 0, 0));
         drawCardButton.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        drawCardButton.setForeground(new java.awt.Color(255, 255, 255));
         drawCardButton.setText("Elegir carta");
         drawCardButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -272,9 +302,9 @@ public class GameStage extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(60, 60, 60)
-                .addComponent(deckCard, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64)
-                .addComponent(topCardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(deckCard, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63)
+                .addComponent(topCardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(41, 41, 41)
@@ -305,7 +335,7 @@ public class GameStage extends javax.swing.JFrame {
                         .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 500, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(pidNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pidNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 825, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(drawCardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(296, 296, 296))))
@@ -314,14 +344,14 @@ public class GameStage extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(topCardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deckCard, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 335, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(topCardButton, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
+                    .addComponent(deckCard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 289, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(pidNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -507,7 +537,6 @@ public class GameStage extends javax.swing.JFrame {
     }//GEN-LAST:event_topCardButtonActionPerformed
 
     private void deckCardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deckCardActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_deckCardActionPerformed
 
     /**
